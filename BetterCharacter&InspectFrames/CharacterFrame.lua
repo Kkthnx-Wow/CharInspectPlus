@@ -38,7 +38,11 @@ Module:SetScript("OnEvent", function()
 		HideUIPanel(CharacterFrame)
 	end
 
-	CharacterModelFrame:StripTextures(true)
+	CharacterModelScene:DisableDrawLayer("BACKGROUND")
+	CharacterModelScene:DisableDrawLayer("BORDER")
+	CharacterModelScene:DisableDrawLayer("OVERLAY")
+
+	CharacterModelScene:StripTextures(true)
 
 	for _, slot in pairs({ PaperDollItemsFrame:GetChildren() }) do
 		if slot:IsObjectType("Button") or slot:IsObjectType("ItemButton") then
@@ -47,23 +51,24 @@ Module:SetScript("OnEvent", function()
 		end
 	end
 
-	CharacterHeadSlot:SetPoint("TOPLEFT", CharacterFrame.Inset, "TOPLEFT", 6, -6)
-	CharacterHandsSlot:SetPoint("TOPRIGHT", CharacterFrame.Inset, "TOPRIGHT", -6, -6)
-	CharacterMainHandSlot:SetPoint("BOTTOMLEFT", CharacterFrame.Inset, "BOTTOMLEFT", 175, 5)
-	CharacterSecondaryHandSlot:ClearAllPoints()
-	CharacterSecondaryHandSlot:SetPoint("BOTTOMRIGHT", CharacterFrame.Inset, "BOTTOMRIGHT", -175, 5)
+	do
+		CharacterHeadSlot:SetPoint("TOPLEFT", CharacterFrame.Inset, "TOPLEFT", 6, -6)
+		CharacterHandsSlot:SetPoint("TOPRIGHT", CharacterFrame.Inset, "TOPRIGHT", -6, -6)
+		CharacterMainHandSlot:SetPoint("BOTTOMLEFT", CharacterFrame.Inset, "BOTTOMLEFT", 176, 5)
+		CharacterSecondaryHandSlot:ClearAllPoints()
+		CharacterSecondaryHandSlot:SetPoint("BOTTOMRIGHT", CharacterFrame.Inset, "BOTTOMRIGHT", -176, 5)
 
-	CharacterModelFrame:SetSize(0, 0)
-	CharacterModelFrame:ClearAllPoints()
-	CharacterModelFrame:SetPoint("TOPLEFT", CharacterFrame.Inset, -0, -7)
-	CharacterModelFrame:SetPoint("BOTTOMRIGHT", CharacterFrame.Inset, 0, 34)
-	CharacterModelFrame:SetCamDistanceScale(1.1)
+		CharacterModelScene:SetSize(0, 0)
+		CharacterModelScene:ClearAllPoints()
+		CharacterModelScene:SetPoint("TOPLEFT", CharacterFrame.Inset, 0, 0)
+		CharacterModelScene:SetPoint("BOTTOMRIGHT", CharacterFrame.Inset, 0, 20)
+	end
 
 	hooksecurefunc("CharacterFrame_Expand", function()
 		CharacterFrame:SetSize(640, 431) -- 540 + 100, 424 + 7
 		CharacterFrame.Inset:SetPoint("BOTTOMRIGHT", CharacterFrame, "BOTTOMLEFT", 432, 4)
 
-		CharacterFrame.Inset.Bg:SetTexture("Interface\\DressUpFrame\\DressingRoom" .. select(2, UnitClass("player")))
+		CharacterFrame.Inset.Bg:SetTexture("Interface\\AddOns\\KkthnxUI\\Media\\Skins\\DressingRoom" .. select(2, UnitClass("player")))
 		CharacterFrame.Inset.Bg:SetTexCoord(0.00195312, 0.935547, 0.00195312, 0.978516)
 		CharacterFrame.Inset.Bg:SetHorizTile(false)
 		CharacterFrame.Inset.Bg:SetVertTile(false)
@@ -75,8 +80,8 @@ Module:SetScript("OnEvent", function()
 
 		CharacterFrame.Inset.Bg:SetTexture("Interface\\FrameGeneral\\UI-Background-Marble", "REPEAT", "REPEAT")
 		CharacterFrame.Inset.Bg:SetTexCoord(0, 1, 0, 1)
-		CharacterFrame.Inset.Bg:SetHorizTile(false)
-		CharacterFrame.Inset.Bg:SetVertTile(false)
+		CharacterFrame.Inset.Bg:SetHorizTile(true)
+		CharacterFrame.Inset.Bg:SetVertTile(true)
 	end)
 
 	local CharItemLvLValue = CharacterStatsPane.ItemLevelFrame.Value
@@ -84,19 +89,12 @@ Module:SetScript("OnEvent", function()
 	CharItemLvLValue:SetShadowOffset(1, -1)
 
 	-- Titles
-	hooksecurefunc("PaperDollTitlesPane_UpdateScrollFrame", function()
-		local bu = PaperDollTitlesPane.buttons
-		for i = 1, #bu do
-			if not bu[i].textureKilled then
-				bu[i].BgTop:SetTexture()
-				bu[i].BgBottom:SetTexture()
-				bu[i].BgMiddle:SetTexture()
-				bu[i].textureKilled = true
-			end
-
-			if not bu[i].fontStyled then
-				bu[i].text:SetFont(select(1, bu[i].text:GetFont()), 11, select(3, bu[i].text:GetFont()))
-				bu[i].fontStyled = true
+	hooksecurefunc(PaperDollFrame.TitleManagerPane.ScrollBox, "Update", function(self)
+		for i = 1, self.ScrollTarget:GetNumChildren() do
+			local child = select(i, self.ScrollTarget:GetChildren())
+			if not child.styled then
+				child:DisableDrawLayer("BACKGROUND")
+				child.styled = true
 			end
 		end
 	end)

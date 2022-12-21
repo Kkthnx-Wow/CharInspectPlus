@@ -38,6 +38,9 @@ Module:SetScript("OnEvent", function(_, event, addon)
 		HideUIPanel(InspectFrame)
 	end
 
+	_G.InspectPaperDollItemsFrame.InspectTalents:ClearAllPoints()
+	_G.InspectPaperDollItemsFrame.InspectTalents:SetPoint("TOPRIGHT", _G.InspectFrame, "BOTTOMRIGHT", 0, -1)
+
 	InspectModelFrame:StripTextures(true)
 
 	for _, slot in pairs({ InspectPaperDollItemsFrame:GetChildren() }) do
