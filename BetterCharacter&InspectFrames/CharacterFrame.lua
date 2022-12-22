@@ -27,7 +27,6 @@ local select = _G.select
 local CharacterHandsSlot = _G.CharacterHandsSlot
 local CharacterHeadSlot = _G.CharacterHeadSlot
 local CharacterMainHandSlot = _G.CharacterMainHandSlot
-local CharacterModelFrame = _G.CharacterModelFrame
 local CharacterSecondaryHandSlot = _G.CharacterSecondaryHandSlot
 local CharacterStatsPane = _G.CharacterStatsPane
 local HideUIPanel = _G.HideUIPanel
@@ -68,7 +67,7 @@ Module:SetScript("OnEvent", function()
 		CharacterFrame:SetSize(640, 431) -- 540 + 100, 424 + 7
 		CharacterFrame.Inset:SetPoint("BOTTOMRIGHT", CharacterFrame, "BOTTOMLEFT", 432, 4)
 
-		CharacterFrame.Inset.Bg:SetTexture("Interface\\AddOns\\KkthnxUI\\Media\\Skins\\DressingRoom" .. select(2, UnitClass("player")))
+		CharacterFrame.Inset.Bg:SetTexture("Interface\\DressUpFrame\\DressingRoom" .. select(2, UnitClass("player")))
 		CharacterFrame.Inset.Bg:SetTexCoord(0.00195312, 0.935547, 0.00195312, 0.978516)
 		CharacterFrame.Inset.Bg:SetHorizTile(false)
 		CharacterFrame.Inset.Bg:SetVertTile(false)

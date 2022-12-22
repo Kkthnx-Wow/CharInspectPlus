@@ -1,20 +1,18 @@
-do
-	local UIFrameHider = CreateFrame("Frame", "Kkthnx_UIFrameHider", UIParent, "SecureHandlerAttributeTemplate")
-	UIFrameHider:Hide()
-	UIFrameHider:SetPoint("TOPLEFT", 0, 0)
-	UIFrameHider:SetPoint("BOTTOMRIGHT", 0, 0)
-	RegisterAttributeDriver(UIFrameHider, "state-visibility", "hide")
+local UIFrameHider = CreateFrame("Frame", "Kkthnx_UIFrameHider", UIParent, "SecureHandlerAttributeTemplate")
+UIFrameHider:Hide()
+UIFrameHider:SetPoint("TOPLEFT", 0, 0)
+UIFrameHider:SetPoint("BOTTOMRIGHT", 0, 0)
+RegisterAttributeDriver(UIFrameHider, "state-visibility", "hide")
 
-	local PetBattleHider = CreateFrame("Frame", "Kkthnx_PetBattleHider", UIParent, "SecureHandlerStateTemplate")
-	PetBattleHider:SetAllPoints()
-	PetBattleHider:SetFrameStrata("LOW")
-	RegisterStateDriver(PetBattleHider, "visibility", "[petbattle] hide; show")
-end
+local PetBattleHider = CreateFrame("Frame", "Kkthnx_PetBattleHider", UIParent, "SecureHandlerStateTemplate")
+PetBattleHider:SetAllPoints()
+PetBattleHider:SetFrameStrata("LOW")
+RegisterStateDriver(PetBattleHider, "visibility", "[petbattle] hide; show")
 
 local function Kill(object)
 	if object.UnregisterAllEvents then
 		object:UnregisterAllEvents()
-		object:SetParent(K.UIFrameHider)
+		object:SetParent(UIFrameHider)
 	else
 		object.Show = object.Hide
 	end
