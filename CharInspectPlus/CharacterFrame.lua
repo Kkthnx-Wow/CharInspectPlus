@@ -63,24 +63,20 @@ Module:SetScript("OnEvent", function()
 		CharacterModelScene:SetPoint("BOTTOMRIGHT", CharacterFrame.Inset, 0, 20)
 	end
 
-	hooksecurefunc("CharacterFrame_Expand", function()
-		CharacterFrame:SetSize(640, 431) -- 540 + 100, 424 + 7
-		CharacterFrame.Inset:SetPoint("BOTTOMRIGHT", CharacterFrame, "BOTTOMLEFT", 432, 4)
+	hooksecurefunc(CharacterFrame, "UpdateSize", function()
+		if CharacterFrame.activeSubframe == "PaperDollFrame" then
+			CharacterFrame:SetSize(640, 431)
+			CharacterFrame.Inset:SetPoint("BOTTOMRIGHT", CharacterFrame, "BOTTOMLEFT", 432, 4)
 
-		CharacterFrame.Inset.Bg:SetTexture("Interface\\DressUpFrame\\DressingRoom" .. select(2, UnitClass("player")))
-		CharacterFrame.Inset.Bg:SetTexCoord(0.00195312, 0.935547, 0.00195312, 0.978516)
-		CharacterFrame.Inset.Bg:SetHorizTile(false)
-		CharacterFrame.Inset.Bg:SetVertTile(false)
-	end)
+			CharacterFrame.Inset.Bg:SetTexture("Interface\\DressUpFrame\\DressingRoom" .. select(2, UnitClass("player")))
+			CharacterFrame.Inset.Bg:SetTexCoord(1 / 512, 479 / 512, 46 / 512, 455 / 512)
+			CharacterFrame.Inset.Bg:SetHorizTile(false)
+			CharacterFrame.Inset.Bg:SetVertTile(false)
 
-	hooksecurefunc("CharacterFrame_Collapse", function()
-		CharacterFrame:SetHeight(424)
-		CharacterFrame.Inset:SetPoint("BOTTOMRIGHT", CharacterFrame, "BOTTOMLEFT", 332, 4)
-
-		CharacterFrame.Inset.Bg:SetTexture("Interface\\FrameGeneral\\UI-Background-Marble", "REPEAT", "REPEAT")
-		CharacterFrame.Inset.Bg:SetTexCoord(0, 1, 0, 1)
-		CharacterFrame.Inset.Bg:SetHorizTile(true)
-		CharacterFrame.Inset.Bg:SetVertTile(true)
+			CharacterFrame.Background:Hide()
+		else
+			CharacterFrame.Background:Show()
+		end
 	end)
 
 	local CharItemLvLValue = CharacterStatsPane.ItemLevelFrame.Value
