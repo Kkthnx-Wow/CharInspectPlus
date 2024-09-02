@@ -1,15 +1,20 @@
-# CharInspectPlus
-No Config, Just Load & Go!
-![unknown](https://user-images.githubusercontent.com/40672673/183781795-b9c85370-e9a2-4257-8dc7-501b1096677f.png)
+# CharInspectPlus - No Config, Just Load & Go! ⚔️✨
 
-## Join the community
-There are thousands of users, but most are content to simply download and use the interface without further ado. If you wish to get more involved though, have some questions you can't find answers to anywhere else or simply just wish to stop by and say hello, we have a [discord](https://discordapp.com/) server as well. 
+[![Last Commit](https://img.shields.io/github/last-commit/Kkthnx-Wow/CharInspectPlus)](https://github.com/Kkthnx-Wow/CharInspectPlus/commits/master)
+[![Issues](https://img.shields.io/github/issues/Kkthnx-Wow/CharInspectPlus)](https://github.com/Kkthnx-Wow/CharInspectPlus/issues)
+[![Download](https://img.shields.io/badge/CurseForge-Download-orange)](https://www.curseforge.com/wow/addons/charinspectplus)
 
-* [Discord](https://discord.gg/Rc9wcK9cAB)
-* [Twitter](https://twitter.com/KkthnxUI)
+![CharInspectPlus Logo](https://user-images.githubusercontent.com/40672673/183781795-b9c85370-e9a2-4257-8dc7-501b1096677f.png)
 
-## Buy me a coffee
-Donations are welcome, but not required to use the UI at all. Donations help me further my development and fuel my gaming! Donations will never be a requirement to use the UI! If you would like to donate, you can do so down below.
+**CharInspectPlus** is your go-to addon for an enhanced character inspection experience in World of Warcraft. No configuration is needed—just load it up and go!
 
-* [PayPal](https://www.paypal.me/kkthnx)
-* [Patreon](https://www.patreon.com/kkthnx)
+## 🚀 Join the Community
+Connect with fellow users of CharInspectPlus! Whether you have questions, want to get involved, or just want to say hello, join our active community on [Discord](https://discord.gg/Rc9wcK9cAB).
+
+- [Discord](https://discord.gg/Rc9wcK9cAB)
+
+## 🎁 Support the Development
+If you enjoy using CharInspectPlus and want to support its development, consider buying me a coffee! Donations are appreciated but never required. They help fuel the ongoing development and my gaming!
+
+- **Donate via PayPal**: [PayPal Donation](https://www.paypal.me/kkthnxtv)
+- **Support on Patreon**: [Patreon](https://www.patreon.com/kkthnx)
