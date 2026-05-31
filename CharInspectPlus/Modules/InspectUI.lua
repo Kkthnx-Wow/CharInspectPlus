@@ -1,4 +1,4 @@
-local _, ns = ...
+local _ = ...
 
 -- REASON: Localize globals for performance and to avoid global lookups.
 local _G = _G
@@ -8,7 +8,7 @@ local InCombatLockdown = InCombatLockdown
 local PanelTemplates_GetSelectedTab = PanelTemplates_GetSelectedTab
 local UnitClass = UnitClass
 local hooksecurefunc = hooksecurefunc
-local pairs = pairs
+local select = select
 
 -- REASON: Manage layout and appearance of the Inspect UI.
 local module = CreateFrame("Frame", "Kkthnx_BetterInspectUI")
@@ -42,14 +42,16 @@ module:SetScript("OnEvent", function(self, event, ...)
 	InspectModelFrame:StripTextures(true)
 
 	-- REASON: Standardize item slot sizes and appearance in the inspect frame.
-	local itemsFrameChildren = { InspectPaperDollItemsFrame:GetChildren() }
-	for i = 1, #itemsFrameChildren do
-		local slot = itemsFrameChildren[i]
-		if slot:IsObjectType("Button") or slot:IsObjectType("ItemButton") then
-			slot:StripTextures()
-			slot:SetSize(37, 37)
+	local function styleItems(...)
+		for i = 1, select("#", ...) do
+			local slot = select(i, ...)
+			if slot:IsObjectType("Button") or slot:IsObjectType("ItemButton") then
+				slot:StripTextures()
+				slot:SetSize(37, 37)
+			end
 		end
 	end
+	styleItems(InspectPaperDollItemsFrame:GetChildren())
 
 	-- REASON: Position equipment slots and the model scene within the inspect frame.
 	InspectHeadSlot:SetPoint("TOPLEFT", InspectFrame.Inset, "TOPLEFT", 6, -6)

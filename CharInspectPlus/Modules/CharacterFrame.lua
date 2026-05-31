@@ -1,23 +1,22 @@
-local _, ns = ...
+local _ = ...
 
 -- REASON: Localize globals for performance and to avoid global lookups.
 local _G = _G
 local CreateFrame = CreateFrame
-local CharacterFrame = CharacterFrame
-local CharacterHandsSlot = CharacterHandsSlot
-local CharacterHeadSlot = CharacterHeadSlot
-local CharacterMainHandSlot = CharacterMainHandSlot
-local CharacterModelScene = CharacterModelScene
-local CharacterSecondaryHandSlot = CharacterSecondaryHandSlot
-local CharacterStatsPane = CharacterStatsPane
+local CharacterFrame = _G.CharacterFrame
+local CharacterHandsSlot = _G.CharacterHandsSlot
+local CharacterHeadSlot = _G.CharacterHeadSlot
+local CharacterMainHandSlot = _G.CharacterMainHandSlot
+local CharacterModelScene = _G.CharacterModelScene
+local CharacterSecondaryHandSlot = _G.CharacterSecondaryHandSlot
+local CharacterStatsPane = _G.CharacterStatsPane
 local HideUIPanel = HideUIPanel
 local InCombatLockdown = InCombatLockdown
-local CharacterFrameInsetRight = CharacterFrameInsetRight
-local PaperDollFrame = PaperDollFrame
-local PaperDollItemsFrame = PaperDollItemsFrame
+local CharacterFrameInsetRight = _G.CharacterFrameInsetRight
+local PaperDollFrame = _G.PaperDollFrame
+local PaperDollItemsFrame = _G.PaperDollItemsFrame
 local UnitClass = UnitClass
 local hooksecurefunc = hooksecurefunc
-local pairs = pairs
 local select = select
 
 -- REASON: Manage layout and appearance of the Character Frame.
@@ -37,14 +36,16 @@ module:SetScript("OnEvent", function(self, event, ...)
 	CharacterModelScene:StripTextures(true)
 
 	-- REASON: Standardize item slot sizes and appearance.
-	local itemsFrameChildren = { PaperDollItemsFrame:GetChildren() }
-	for i = 1, #itemsFrameChildren do
-		local slot = itemsFrameChildren[i]
-		if slot:IsObjectType("Button") or slot:IsObjectType("ItemButton") then
-			slot:StripTextures()
-			slot:SetSize(37, 37)
+	local function styleItems(...)
+		for i = 1, select("#", ...) do
+			local slot = select(i, ...)
+			if slot:IsObjectType("Button") or slot:IsObjectType("ItemButton") then
+				slot:StripTextures()
+				slot:SetSize(37, 37)
+			end
 		end
 	end
+	styleItems(PaperDollItemsFrame:GetChildren())
 
 	-- REASON: Position equipment slots and the model scene within the inset.
 	CharacterHeadSlot:SetPoint("TOPLEFT", CharacterFrame.Inset, "TOPLEFT", 6, -6)
@@ -87,14 +88,18 @@ module:SetScript("OnEvent", function(self, event, ...)
 	charItemLevelValue:SetShadowOffset(1, -1)
 
 	-- REASON: Clean up the Title Manager list appearance.
-	hooksecurefunc(PaperDollFrame.TitleManagerPane.ScrollBox, "Update", function(self)
-		for i = 1, self.ScrollTarget:GetNumChildren() do
-			local child = select(i, self.ScrollTarget:GetChildren())
-			if not child.styled then
+	local function styleTitleChildren(...)
+		for i = 1, select("#", ...) do
+			local child = select(i, ...)
+			if child and not child.styled then
 				child:DisableDrawLayer("BACKGROUND")
 				child.styled = true
 			end
 		end
+	end
+
+	hooksecurefunc(PaperDollFrame.TitleManagerPane.ScrollBox, "Update", function(scrollBox)
+		styleTitleChildren(scrollBox.ScrollTarget:GetChildren())
 	end)
 
 	-- REASON: Re-anchor the class background to fit the new layout.

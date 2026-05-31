@@ -1,11 +1,11 @@
-## Interface: 120000, 110207, 110105
+## Interface: 120005, 110105, 110205
 ## Name: CharInspectPlus
 ## Title: |cff669DFFCharInspectPlus|r
 ## Notes: Enhances the Character & Inspect Frames.|n|n|cff669DFFDeveloper|cffffffff:|r |nJosh "|CFF7b8489Kkthnx|r" Russell|n|n|cff009cdePayPal|r|cffffffff:|r |n|cffffffffwww.paypal.me/Kkthnx|r|n|n|cfff96854Patreon|r|cffffffff:|r |n|cffffffffwww.patreon.com/Kkthnx|r
 ## Author: Josh "Kkthnx" Russell
-## Version: 1.0.4
+## Version: 1.0.5
 ## IconTexture: 4952382
-## X-Support: DF
+## X-Support: Midnight
 ## X-Curse-Project-ID: 657926
 
 ## Category-enUS: Kkthnx's AddOns

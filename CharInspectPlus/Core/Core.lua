@@ -1,4 +1,4 @@
-local _, ns = ...
+local _ = ...
 
 -- REASON: Localize globals for performance and avoid global lookups in high-frequency operations.
 local CreateFrame = CreateFrame
@@ -8,7 +8,6 @@ local RegisterStateDriver = RegisterStateDriver
 local UIParent = UIParent
 local _G = _G
 local getmetatable = getmetatable
-local pairs = pairs
 local select = select
 local tonumber = tonumber
 local type = type
@@ -66,34 +65,39 @@ local BLIZZARD_TEXTURES = {
 	"TitleWidgetContainer",
 }
 
+local function processRegions(shouldKill, ...)
+	for i = 1, select("#", ...) do
+		local region = select(i, ...)
+		if region and region.IsObjectType and region:IsObjectType("Texture") then
+			if shouldKill and type(shouldKill) == "boolean" then
+				killObject(region)
+			elseif tonumber(shouldKill) then
+				if shouldKill == 0 then
+					region:SetAlpha(0)
+				elseif i ~= shouldKill then
+					-- PERF: Setting texture to empty string is faster than hiding for many regions.
+					region:SetTexture("")
+				end
+			else
+				region:SetTexture("")
+			end
+		end
+	end
+end
+
 -- REASON: Remove default Blizzard textures from frames for a cleaner UI look.
 local function stripTextures(object, shouldKill)
 	local frameName = object.GetName and object:GetName()
-	for _, texture in pairs(BLIZZARD_TEXTURES) do
+	for i = 1, #BLIZZARD_TEXTURES do
+		local texture = BLIZZARD_TEXTURES[i]
 		local blizzFrame = object[texture] or (frameName and _G[frameName .. texture])
 		if blizzFrame then
 			stripTextures(blizzFrame, shouldKill)
 		end
 	end
 
-	if object.GetNumRegions then
-		for i = 1, object:GetNumRegions() do
-			local region = select(i, object:GetRegions())
-			if region and region.IsObjectType and region:IsObjectType("Texture") then
-				if shouldKill and type(shouldKill) == "boolean" then
-					killObject(region)
-				elseif tonumber(shouldKill) then
-					if shouldKill == 0 then
-						region:SetAlpha(0)
-					elseif i ~= shouldKill then
-						-- PERF: Setting texture to empty string is faster than hiding for many regions.
-						region:SetTexture("")
-					end
-				else
-					region:SetTexture("")
-				end
-			end
-		end
+	if object.GetRegions then
+		processRegions(shouldKill, object:GetRegions())
 	end
 end
 
