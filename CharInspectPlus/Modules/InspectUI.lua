@@ -9,6 +9,8 @@ local PanelTemplates_GetSelectedTab = PanelTemplates_GetSelectedTab
 local UnitClass = UnitClass
 local hooksecurefunc = hooksecurefunc
 local select = select
+-- REASON: issecretvalue only exists on Midnight (12.0+); guarded so 11.x clients don't error.
+local issecretvalue = issecretvalue
 
 -- REASON: Manage layout and appearance of the Inspect UI.
 local module = CreateFrame("Frame", "Kkthnx_BetterInspectUI")
@@ -42,10 +44,13 @@ module:SetScript("OnEvent", function(self, event, ...)
 	InspectModelFrame:StripTextures(true)
 
 	-- REASON: Standardize item slot sizes and appearance in the inspect frame.
+	-- BUGFIX: Exclude the InspectTalents button; it is a child Button of
+	-- InspectPaperDollItemsFrame and was being resized to 37x37 like an item slot.
+	local inspectTalents = InspectPaperDollItemsFrame.InspectTalents
 	local function styleItems(...)
 		for i = 1, select("#", ...) do
 			local slot = select(i, ...)
-			if slot:IsObjectType("Button") or slot:IsObjectType("ItemButton") then
+			if slot ~= inspectTalents and (slot:IsObjectType("Button") or slot:IsObjectType("ItemButton")) then
 				slot:StripTextures()
 				slot:SetSize(37, 37)
 			end
@@ -78,8 +83,12 @@ module:SetScript("OnEvent", function(self, event, ...)
 			InspectFrame:SetSize(438, 431)
 			InspectFrame.Inset:SetPoint("BOTTOMRIGHT", InspectFrame, "BOTTOMLEFT", 432, 4)
 
+			-- REASON: On Midnight, unit data can be a Secret Value inside instances.
+			-- issecretvalue() never errors and is checked first so the truthiness test
+			-- and string concatenation below can never touch a Secret. Guarded with
+			-- "not issecretvalue or" so 11.x clients (no such global) still work.
 			local _, targetClass = UnitClass("target")
-			if targetClass then
+			if (not issecretvalue or not issecretvalue(targetClass)) and targetClass then
 				InspectFrame.Inset.Bg:SetTexture("Interface\\DressUpFrame\\DressingRoom" .. targetClass)
 				InspectFrame.Inset.Bg:SetTexCoord(0.00195312, 0.935547, 0.00195312, 0.978516)
 				InspectFrame.Inset.Bg:SetHorizTile(false)
