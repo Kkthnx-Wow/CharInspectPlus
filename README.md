@@ -13,7 +13,7 @@
 
 ---
 
-![CharInspectPlus — enhanced Character and Inspect frames](Media/Preview.png)
+![CharInspectPlus — enhanced Character and Inspect frames](CharInspectPlus/Media/Preview.png)
 
 ---
 
